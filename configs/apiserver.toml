@@ -2,4 +2,4 @@ bind_adder = ":8080"
 log_level = "debug"
 
 [store]
-database_url = "host=localhost dbname=restapi_dev sslmode=disable"
+database_url = "root:12345678@tcp(localhost:3306)/restapi_dev"
