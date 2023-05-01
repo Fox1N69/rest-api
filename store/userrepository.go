@@ -8,7 +8,7 @@ type UserRepository struct {
 
 func (r *UserRepository) Create(u *model.User) (*model.User, error) {
 	if err := r.store.db.QueryRow(
-		"INSERT INTO users (email, encrypto_password) VALUES ($1, $2) RETURNING id",
+		"INSERT INTO users (email, encrypto_password) VALUES ($1, $2)",
 		u.Email, 
 		u.EncryptedPassword,
 	).Scan(&u.ID); err != nil {
