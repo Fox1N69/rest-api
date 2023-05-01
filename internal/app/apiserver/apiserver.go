@@ -9,16 +9,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//APIServer ...
+// APIServer ...
 type APIServer struct {
 	config *Config
 	logger *logrus.Logger
 	router *mux.Router
-	store *store.Store
-
+	store  *store.Store
 }
 
-//New ...
+// New ...
 func New(config *Config) *APIServer {
 	return &APIServer{
 		config: config,
@@ -27,12 +26,11 @@ func New(config *Config) *APIServer {
 	}
 }
 
-//StartAPI ...
+// StartAPI ...
 func (s *APIServer) Start() error {
-	if  err := s.configureLogger(); err != nil {
+	if err := s.configureLogger(); err != nil {
 		return err
 	}
-
 
 	s.configureRouter()
 
@@ -40,16 +38,12 @@ func (s *APIServer) Start() error {
 		return err
 	}
 
-
 	s.logger.Info("Starting server...")
-	
-
 
 	return http.ListenAndServe(s.config.BindAdder, s.router)
 }
 
-
-func (s* APIServer) configureLogger() error {
+func (s *APIServer) configureLogger() error {
 	level, err := logrus.ParseLevel(s.config.LogLevel)
 	if err != nil {
 		return err
@@ -60,7 +54,7 @@ func (s* APIServer) configureLogger() error {
 	return nil
 }
 
-func (s* APIServer) configureRouter() {
+func (s *APIServer) configureRouter() {
 	s.router.HandleFunc("/hello", s.handleHello())
 }
 
@@ -75,14 +69,13 @@ func (s *APIServer) configureStore() error {
 	return nil
 }
 
-func (s* APIServer) handleHello() http.HandlerFunc {
+func (s *APIServer) handleHello() http.HandlerFunc {
 	type request struct {
 		name string
 	}
 
-	return func (w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, "Hello")
 	}
-		
-}
 
+}

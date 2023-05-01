@@ -1,5 +1,6 @@
-CREATE TABLE users(
-    id bigserial not null primary key,
-    email varchar not null enique,
-    encrypted_password varchar not null
-);
+CREATE TABLE users (
+    id serial not null primary key,
+    email varchar(50) not null unique,
+    encrypted_password varchar(50) not null
+); 
+  

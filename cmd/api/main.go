@@ -8,8 +8,8 @@ import (
 	"github.com/Fox1N69/rest-api/internal/app/apiserver"
 )
 
-//varibels for path to config
-var(
+// varibels for path to config
+var (
 	configPath string
 )
 
@@ -18,10 +18,9 @@ func init() {
 	flag.StringVar(&configPath, "config-path", "configs/apiserver.toml", "path to config file")
 }
 
-
-func main(){
+func main() {
 	flag.Parse()
-	
+
 
 	config := apiserver.NewConfig()
 	_, err := toml.DecodeFile(configPath, config)
@@ -34,6 +33,3 @@ func main(){
 		log.Fatal(err)
 	}
 }
-
-
-

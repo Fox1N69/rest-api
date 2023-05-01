@@ -6,25 +6,26 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//Store...
+// Store...
 type Store struct {
-	config *Config
-	db *sql.DB
+	config         *Config
+	db             *sql.DB
+	userRepository *UserRepository
 }
 
-//New...
-func New(config *Config) *Store{
+// New...
+func New(config *Config) *Store {
 	return &Store{
 		config: config,
 	}
 }
 
 func (s *Store) Open() error {
-	db, err :=  sql.Open("mysql", s.config.DatabaseURL)
+	db, err := sql.Open("mysql", s.config.DatabaseURL)
 	if err != nil {
 		return err
 	}
-	
+
 	if err := db.Ping(); err != nil {
 		return err
 	}
@@ -36,4 +37,16 @@ func (s *Store) Open() error {
 
 func (s *Store) Close() {
 	s.db.Close()
+}
+
+func (s *Store) User() *UserRepository {
+	if s.userRepository != nil {
+		return s.userRepository
+	}
+
+	s.userRepository = &UserRepository{
+		store: s,
+	}
+
+	return s.userRepository
 }
